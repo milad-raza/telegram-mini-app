@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+/* In your CSS file or style tag */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+

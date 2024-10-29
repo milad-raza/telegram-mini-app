@@ -13,7 +13,10 @@ function App() {
       } else {
         console.warn('requestView method is not available in the Telegram WebApp API');
       }
+
       tg.expand();
+
+      tg.MainButton.show();
     }
   }, []);
 
