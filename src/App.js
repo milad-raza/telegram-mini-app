@@ -51,6 +51,11 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleExpand = () => {
+    window?.Telegram.WebApp.expand();
+    console.log(window)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -58,6 +63,8 @@ function App() {
         <p>
           Welcome to My Telegram Mini-App
         </p>
+
+        <button onClick={handleExpand}>expand</button>
       </header>
     </div>
   );
