@@ -40,6 +40,11 @@ function App() {
     }
   }
   
+
+  window?.Telegram?.WebApp.onEvent('viewportChanged', function() {
+    window?.Telegram.WebApp.expand();
+});
+
   useEffect(() => {
     // Wait a bit to ensure Telegram WebApp SDK is loaded
     const timer = setTimeout(() => expand(), 500);
