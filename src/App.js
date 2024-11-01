@@ -39,19 +39,11 @@ function App() {
       console.warn("Telegram WebApp not detected.");
     }
   }
-
+  
   useEffect(() => {
-    // if (window.Telegram && window.Telegram.WebApp) {
-    //   const tg = window.Telegram.WebApp;
-
-    //   if (typeof tg.requestView === 'function') {
-    //     tg.requestView('full');
-    //   } else {
-    //     console.warn('requestView method is not available in the Telegram WebApp API');
-    //   }
-    //   tg.expand();
-    // }
-    expand()
+    // Wait a bit to ensure Telegram WebApp SDK is loaded
+    const timer = setTimeout(() => expand(), 500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
