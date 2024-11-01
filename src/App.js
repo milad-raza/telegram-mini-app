@@ -26,14 +26,17 @@ import './App.css';
 
 function App() {
 
-  function expand (){
+  function expand() {
     const tg = window?.Telegram?.WebApp;
-    try {
-      tg.Telegram.WebApp.ready()
-      tg.Telegram.WebApp.expand()
-    }
-    catch(e){
-      console.log(e)
+    if (tg) {
+      try {
+        tg.ready();
+        tg.expand();
+      } catch (e) {
+        console.log("Error expanding:", e);
+      }
+    } else {
+      console.warn("Telegram WebApp not detected.");
     }
   }
 
