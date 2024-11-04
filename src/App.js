@@ -1,31 +1,13 @@
-// import '@telegram-apps/telegram-ui/dist/styles.css';
-
-// import { AppRoot, Placeholder } from '@telegram-apps/telegram-ui';
-
-// const App = () => (
-//   <AppRoot>
-//     <Placeholder
-//       header="Title"
-//       description="Description"
-//     >
-//       <img
-//         alt="Telegram sticker"
-//         src="https://xelene.me/telegram.gif"
-//         style={{ display: 'block', width: '144px', height: '144px' }}
-//       />
-//     </Placeholder>
-//   </AppRoot>
-// );
-
-// export default App;
-
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+const loadTelegramSdk = async () => {
+  const WebApp = await import('@twa-dev/sdk');
+  return WebApp;
+};
 
 function App() {
-
+  const [userData, setUserData] = useState({})
   function expand() {
     const tg = window?.Telegram?.WebApp;
     if (tg) {
@@ -39,22 +21,22 @@ function App() {
       console.warn("Telegram WebApp not detected.");
     }
   }
-  
 
-  window?.Telegram?.WebApp.onEvent('viewportChanged', function() {
-    window?.Telegram.WebApp.expand();
-});
+  window?.Telegram?.WebApp.onEvent('viewportChanged', function () {
+  window?.Telegram.WebApp.expand();
+  });
+
 
   useEffect(() => {
-    // Wait a bit to ensure Telegram WebApp SDK is loaded
-    const timer = setTimeout(() => expand(), 500);
-    return () => clearTimeout(timer);
-  }, []);
+    expand()
+    loadTelegramSdk().then((tg) => {
+      console.log(tg?.default?.initDataUnsafe, "tggg")
+      setUserData(tg?.default?.initDataUnsafe?.user ? tg?.default?.initDataUnsafe?.user : tg?.default?.initDataUnsafe ? tg?.default?.initDataUnsafe : {})
+    }).catch(error => {
+      console.error("Failed to initialize Telegram SDK:", error);
+    });
+  }, [])
 
-  const handleExpand = () => {
-    window?.Telegram.WebApp.expand();
-    console.log(window)
-  }
 
   return (
     <div className="App">
@@ -64,7 +46,14 @@ function App() {
           Welcome to My Telegram Mini-App
         </p>
 
-        <button onClick={handleExpand}>expand</button>
+        {userData && <ul>
+          {Object.entries(userData).map(([key, value]) => (
+            <li key={key}>
+              <strong>{key}:</strong> {typeof value === 'string' ? value : JSON.stringify(value)}
+            </li>
+          ))}
+        </ul>}
+
       </header>
     </div>
   );
