@@ -8,27 +8,27 @@ const loadTelegramSdk = async () => {
 
 function App() {
   const [userData, setUserData] = useState({})
-  function expand() {
-    const tg = window?.Telegram?.WebApp;
-    if (tg) {
-      try {
-        tg.ready();
-        tg.expand();
-      } catch (e) {
-        console.log("Error expanding:", e);
-      }
-    } else {
-      console.warn("Telegram WebApp not detected.");
-    }
-  }
+  // function expand() {
+  //   const tg = window?.Telegram?.WebApp;
+  //   if (tg) {
+  //     try {
+  //       tg.ready();
+  //       tg.expand();
+  //     } catch (e) {
+  //       console.log("Error expanding:", e);
+  //     }
+  //   } else {
+  //     console.warn("Telegram WebApp not detected.");
+  //   }
+  // }
 
-  // window?.Telegram?.WebApp.onEvent('viewportChanged', function () {
-  // window?.Telegram.WebApp.expand();
-  // });
+  window?.Telegram?.WebApp.onEvent('viewportChanged', function () {
+  window?.Telegram.WebApp.expand();
+  });
 
 
   useEffect(() => {
-    expand()
+    // expand()
     loadTelegramSdk().then((tg) => {
       console.log(tg?.default?.initDataUnsafe, "tggg")
       setUserData(tg?.default?.initDataUnsafe?.user ??  tg?.default?.initDataUnsafe ?? {})
